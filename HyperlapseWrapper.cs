@@ -30,7 +30,9 @@ namespace HyperlapseBatchProcessor
 
             foreach (var file in files)
             {
-                Console.WriteLine("[Processing file " + i++ + " of " + filesCount + "] - " + file.Name + " ");
+                var processingMsg = "[Processing file " + i++ + " of " + filesCount + "] - " + file.Name;
+                Console.Title = processingMsg;
+                Console.WriteLine(processingMsg);
 
                 var fileOutput = new FileInfo(Path.Combine(file.DirectoryName, "Output", file.Name));
                 if (!fileOutput.Directory.Exists)

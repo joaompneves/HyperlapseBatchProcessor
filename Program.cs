@@ -51,6 +51,7 @@ namespace HyperlapseBatchProcessor
                     return;
                 }
 
+                videoFiles = videoFiles.OrderBy(f => f.Name).ToArray();
                 HyperlapseWrapper.ProcessFiles(videoFiles, speedupFactor, /*outputFramesPerSecond*/null);
 
                 Console.WriteLine("Finished");
