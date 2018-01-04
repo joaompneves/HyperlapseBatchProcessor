@@ -1,9 +1,13 @@
 ﻿using Microsoft.Research.Hyperlapse.Desktop;
-using Microsoft.Research.VisionTools.Toolkit.Desktop.Native;
+using Microsoft.Research.VisionTools.Toolkit;
+using Microsoft.Research.Hyperlapse;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
+
+// To resolve conflict between Microsoft.Research.Hyperlapse and Microsoft.Research.Hyperlapse.Desktop
+using VideoBitrateEstimator = Microsoft.Research.Hyperlapse.VideoBitrateEstimator;
 
 namespace HyperlapseBatchProcessor
 {
@@ -20,13 +24,16 @@ namespace HyperlapseBatchProcessor
         {
             var i = 1;
             var filesCount = files.Count();
-            var engine = new HyperlapseEngine();
+
+            var nativeEngine = new HyperlapseNative.HyperlapseEngine();
+            var productInfo = new ProductInfo();
+            var engine = new HyperlapseEngine(nativeEngine, productInfo);
 
             engine.ProcessingCancelled += OnEngineProcessingCancelled;
             engine.ProcessingFailed += OnEngineProcessingFailed;
             engine.ProcessingFinished += OnEngineProcessingFinished;
             engine.ProgressChanged += OnEngineProgressChanged;
-            engine.TrialStatusChanged += OnEngineTrialStatusChanged;
+            engine.ActivationStatusChanged += OnEngineActivationStatusChanged;
 
             foreach (var file in files)
             {
@@ -87,7 +94,7 @@ namespace HyperlapseBatchProcessor
             processingEvent.WaitOne();
         }
 
-        private static void OnEngineTrialStatusChanged(object sender, EventArgs e)
+        private static void OnEngineActivationStatusChanged(object sender, EventArgs e)
         {
 
         }
